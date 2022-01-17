@@ -41,10 +41,11 @@ void readData()
 
 void pufTest()
 {
-  // put your main code here, to run repeatedly:
+  //change selection line signal
   for (int i = 0; i < 15; i++)
   {
     digitalWrite(selectionLine[i], 1);
+    //read every 8 bit
     readData();
     digitalWrite(selectionLine[i], 0);
   }
