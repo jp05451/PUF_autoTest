@@ -1,4 +1,5 @@
 #include <Arduino.h>
+#define LEVEL 676
 
 const int selectionLine[] = {2, 3, 4, 5, 6, 22, 24, 26, 28, 30, 32, 34, 36, 38, 40};
 const int dataLine[] = {A0, A1, A2, A3, A4, A5, A6, A7};
@@ -18,15 +19,31 @@ void setup()
   pinMode(CE, OUTPUT);
   digitalWrite(CE, CE_control);
   pinMode(OE, OUTPUT);
+  pinMode(7, OUTPUT);
   digitalWrite(OE, OE_control);
 
+  //selection line pin mode
   for (int i = 0; i < sizeof(selectionLine) / sizeof(selectionLine[0]); i++)
   {
     pinMode(selectionLine[i], OUTPUT);
+    digitalWrite(selectionLine[i], 0);
   }
+
+  //dataline pin mode
   for (int i = 0; i < sizeof(dataLine) / sizeof(dataLine[0]); i++)
   {
     pinMode(dataLine[i], INPUT);
+  }
+  for (int i = 0; i < 15; i++)
+  {
+    digitalWrite(selectionLine[i], 0);
+  }
+  for (int i = 0; i < 10; i++)
+  {
+    digitalWrite(13, 1);
+    delay(100);
+    digitalWrite(13, 0);
+    delay(100);
   }
 }
 
@@ -34,7 +51,14 @@ void readData()
 {
   for (int i = 0; i < sizeof(dataLine) / sizeof(dataLine[0]); i++)
   {
-    Serial.print(analogRead(dataLine[i]));
+    int temp = analogRead(dataLine[i]);
+    // Serial.print(temp);
+    // Serial.print("\t");
+    if (temp >= LEVEL * 0.5)
+      Serial.print("1");
+    else
+      Serial.print("0");
+    Serial.print(" ");
   }
   Serial.println();
 }
@@ -42,7 +66,7 @@ void readData()
 void pufTest()
 {
   //change selection line signal
-  for (int i = 0; i < 15; i++)
+  for (int i = 0; i < 6; i++)
   {
     digitalWrite(selectionLine[i], 1);
     //read every 8 bit
@@ -54,6 +78,9 @@ void pufTest()
 
 void loop()
 {
+  digitalWrite(7, 1);
+  delay(100);
   pufTest();
-  delay(1000);
+  digitalWrite(7, 0);
+  delay(5000);
 }
