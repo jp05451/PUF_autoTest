@@ -47,13 +47,21 @@ void setup()
   }
 }
 
-void readData()
+void readAnalogData()
 {
   for (int i = 0; i < sizeof(dataLine) / sizeof(dataLine[0]); i++)
   {
     int temp = analogRead(dataLine[i]);
     // Serial.print(temp);
     // Serial.print("\t");
+  }
+  Serial.println();
+}
+void readDigitalData()
+{
+  for (int i = 0; i < sizeof(dataLine) / sizeof(dataLine[0]); i++)
+  {
+    int temp = analogRead(dataLine[i]);
     if (temp >= LEVEL * 0.5)
       Serial.print("1");
     else
@@ -70,7 +78,8 @@ void pufTest()
   {
     digitalWrite(selectionLine[i], 1);
     //read every 8 bit
-    readData();
+    readDigitalData();
+    readAnalogData();
     digitalWrite(selectionLine[i], 0);
   }
   Serial.println("**************************************");
