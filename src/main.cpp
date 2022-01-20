@@ -1,5 +1,7 @@
 #include <Arduino.h>
 #define LEVEL 676
+#define END_BYTES 3
+#define BEGIN_BYTES 0
 
 const int selectionLine[] = {2, 3, 4, 5, 6, 22, 24, 26, 28, 30, 32, 34, 36, 38, 40};
 const int dataLine[] = {A0, A1, A2, A3, A4, A5, A6, A7};
@@ -52,8 +54,8 @@ void readAnalogData()
   for (int i = 0; i < sizeof(dataLine) / sizeof(dataLine[0]); i++)
   {
     int temp = analogRead(dataLine[i]);
-    // Serial.print(temp);
-    // Serial.print("\t");
+    Serial.print(temp);
+    Serial.print("\t");
   }
   Serial.println();
 }
@@ -74,11 +76,19 @@ void readDigitalData()
 void pufTest()
 {
   //change selection line signal
-  for (int i = 0; i < 6; i++)
+  for (int i = BEGIN_BYTES; i <END_BYTES ; i++)
   {
     digitalWrite(selectionLine[i], 1);
     //read every 8 bit
     readDigitalData();
+    digitalWrite(selectionLine[i], 0);
+  }
+    Serial.println("--------------------------------------");
+
+  for (int i = BEGIN_BYTES; i < END_BYTES; i++)
+  {
+    digitalWrite(selectionLine[i], 1);
+    //read every 8 bit
     readAnalogData();
     digitalWrite(selectionLine[i], 0);
   }
@@ -87,9 +97,10 @@ void pufTest()
 
 void loop()
 {
+  Serial.println(LEVEL/2);
   digitalWrite(7, 1);
   delay(100);
   pufTest();
   digitalWrite(7, 0);
-  delay(5000);
+  delay(10000);
 }
