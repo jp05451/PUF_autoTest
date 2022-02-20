@@ -8,7 +8,7 @@ pin_ar represents pin number in arduino mega
 pin_cy represents pin number in cy62256nll
 
 - selection line
-pin_ar 2 to pin_cy 21 (A0) 
+pin_ar 2 to pin_cy 21 (A0) \n
 pin_ar 3 to pin_cy 23 (A1)
 pin_ar 4 to pin_cy 24 (A2)
 pin_ar 5 to pin_cy 25 (A3)
