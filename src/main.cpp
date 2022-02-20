@@ -59,8 +59,8 @@ void readAnalogData()
 {
   for (int i = 0; i < 8; i++)
   {
-    int temp = analogRead(dataLine[i]);
-    Serial.print(temp);
+    double temp = analogRead(dataLine[i]);
+    Serial.print(temp * 5 / 1023);
     Serial.print("\t");
   }
   Serial.println();
